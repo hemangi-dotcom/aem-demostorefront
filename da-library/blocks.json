@@ -1,0 +1,152 @@
+{
+  "total": 36,
+  "offset": 0,
+  "limit": 36,
+  "data": [
+    {
+      "name": "Hero",
+      "path": "https://raw.githubusercontent.com/hemangi-dotcom/aem-demostorefront/main/da-library/blocks/hero.html"
+    },
+    {
+      "name": "Accordion",
+      "path": "https://raw.githubusercontent.com/hemangi-dotcom/aem-demostorefront/main/da-library/blocks/accordion.html"
+    },
+    {
+      "name": "Cards",
+      "path": "https://raw.githubusercontent.com/hemangi-dotcom/aem-demostorefront/main/da-library/blocks/cards.html"
+    },
+    {
+      "name": "Carousel",
+      "path": "https://raw.githubusercontent.com/hemangi-dotcom/aem-demostorefront/main/da-library/blocks/carousel.html"
+    },
+    {
+      "name": "Columns",
+      "path": "https://raw.githubusercontent.com/hemangi-dotcom/aem-demostorefront/main/da-library/blocks/columns.html"
+    },
+    {
+      "name": "Commerce Account Header",
+      "path": "https://raw.githubusercontent.com/hemangi-dotcom/aem-demostorefront/main/da-library/blocks/commerce-account-header.html"
+    },
+    {
+      "name": "Commerce Account Sidebar",
+      "path": "https://raw.githubusercontent.com/hemangi-dotcom/aem-demostorefront/main/da-library/blocks/commerce-account-sidebar.html"
+    },
+    {
+      "name": "Commerce Cart",
+      "path": "https://raw.githubusercontent.com/hemangi-dotcom/aem-demostorefront/main/da-library/blocks/commerce-cart.html"
+    },
+    {
+      "name": "Commerce Checkout",
+      "path": "https://raw.githubusercontent.com/hemangi-dotcom/aem-demostorefront/main/da-library/blocks/commerce-checkout.html"
+    },
+    {
+      "name": "Commerce Checkout Success",
+      "path": "https://raw.githubusercontent.com/hemangi-dotcom/aem-demostorefront/main/da-library/blocks/commerce-checkout-success.html"
+    },
+    {
+      "name": "Commerce Confirm Account",
+      "path": "https://raw.githubusercontent.com/hemangi-dotcom/aem-demostorefront/main/da-library/blocks/commerce-confirm-account.html"
+    },
+    {
+      "name": "Commerce Create Account",
+      "path": "https://raw.githubusercontent.com/hemangi-dotcom/aem-demostorefront/main/da-library/blocks/commerce-create-account.html"
+    },
+    {
+      "name": "Commerce Create Password",
+      "path": "https://raw.githubusercontent.com/hemangi-dotcom/aem-demostorefront/main/da-library/blocks/commerce-create-password.html"
+    },
+    {
+      "name": "Commerce Create Return",
+      "path": "https://raw.githubusercontent.com/hemangi-dotcom/aem-demostorefront/main/da-library/blocks/commerce-create-return.html"
+    },
+    {
+      "name": "Commerce Customer Details",
+      "path": "https://raw.githubusercontent.com/hemangi-dotcom/aem-demostorefront/main/da-library/blocks/commerce-customer-details.html"
+    },
+    {
+      "name": "Commerce Forgot Password",
+      "path": "https://raw.githubusercontent.com/hemangi-dotcom/aem-demostorefront/main/da-library/blocks/commerce-forgot-password.html"
+    },
+    {
+      "name": "Commerce Gift Options",
+      "path": "https://raw.githubusercontent.com/hemangi-dotcom/aem-demostorefront/main/da-library/blocks/commerce-gift-options.html"
+    },
+    {
+      "name": "Commerce Login",
+      "path": "https://raw.githubusercontent.com/hemangi-dotcom/aem-demostorefront/main/da-library/blocks/commerce-login.html"
+    },
+    {
+      "name": "Commerce Mini Cart",
+      "path": "https://raw.githubusercontent.com/hemangi-dotcom/aem-demostorefront/main/da-library/blocks/commerce-mini-cart.html"
+    },
+    {
+      "name": "Commerce Order Comments",
+      "path": "https://raw.githubusercontent.com/hemangi-dotcom/aem-demostorefront/main/da-library/blocks/commerce-order-comments.html"
+    },
+    {
+      "name": "Commerce Order Cost Summary",
+      "path": "https://raw.githubusercontent.com/hemangi-dotcom/aem-demostorefront/main/da-library/blocks/commerce-order-cost-summary.html"
+    },
+    {
+      "name": "Commerce Order Header",
+      "path": "https://raw.githubusercontent.com/hemangi-dotcom/aem-demostorefront/main/da-library/blocks/commerce-order-header.html"
+    },
+    {
+      "name": "Commerce Order Product List",
+      "path": "https://raw.githubusercontent.com/hemangi-dotcom/aem-demostorefront/main/da-library/blocks/commerce-order-product-list.html"
+    },
+    {
+      "name": "Commerce Order Returns",
+      "path": "https://raw.githubusercontent.com/hemangi-dotcom/aem-demostorefront/main/da-library/blocks/commerce-order-returns.html"
+    },
+    {
+      "name": "Commerce Order Status",
+      "path": "https://raw.githubusercontent.com/hemangi-dotcom/aem-demostorefront/main/da-library/blocks/commerce-order-status.html"
+    },
+    {
+      "name": "Commerce Return Header",
+      "path": "https://raw.githubusercontent.com/hemangi-dotcom/aem-demostorefront/main/da-library/blocks/commerce-return-header.html"
+    },
+    {
+      "name": "Commerce Search Order",
+      "path": "https://raw.githubusercontent.com/hemangi-dotcom/aem-demostorefront/main/da-library/blocks/commerce-search-order.html"
+    },
+    {
+      "name": "Commerce Shipping Status",
+      "path": "https://raw.githubusercontent.com/hemangi-dotcom/aem-demostorefront/main/da-library/blocks/commerce-shipping-status.html"
+    },
+    {
+      "name": "Commerce Wishlist",
+      "path": "https://raw.githubusercontent.com/hemangi-dotcom/aem-demostorefront/main/da-library/blocks/commerce-wishlist.html"
+    },
+    {
+      "name": "Enrichment",
+      "path": "https://raw.githubusercontent.com/hemangi-dotcom/aem-demostorefront/main/da-library/blocks/enrichment.html"
+    },
+    {
+      "name": "Fragment",
+      "path": "https://raw.githubusercontent.com/hemangi-dotcom/aem-demostorefront/main/da-library/blocks/fragment.html"
+    },
+    {
+      "name": "Product Details",
+      "path": "https://raw.githubusercontent.com/hemangi-dotcom/aem-demostorefront/main/da-library/blocks/product-details.html"
+    },
+    {
+      "name": "Product List Page",
+      "path": "https://raw.githubusercontent.com/hemangi-dotcom/aem-demostorefront/main/da-library/blocks/product-list-page.html"
+    },
+    {
+      "name": "Product Recommendations",
+      "path": "https://raw.githubusercontent.com/hemangi-dotcom/aem-demostorefront/main/da-library/blocks/product-recommendations.html"
+    },
+    {
+      "name": "Targeted Block",
+      "path": "https://raw.githubusercontent.com/hemangi-dotcom/aem-demostorefront/main/da-library/blocks/targeted-block.html"
+    },
+    {
+      "name": "Brands",
+      "path": "https://raw.githubusercontent.com/hemangi-dotcom/aem-demostorefront/main/da-library/blocks/brands.html"
+    }
+  ],
+  ":type": "sheet"
+}
