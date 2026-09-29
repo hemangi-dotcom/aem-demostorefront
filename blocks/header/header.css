@@ -53,8 +53,7 @@ header nav[aria-expanded='true'] {
       'brand search tools'
       'sections sections sections';
     align-items: center;
-    column-gap: 32px;
-    row-gap: 12px;
+    gap: 12px 32px;
     max-width: 1264px;
     height: auto;
     padding: 16px 32px 0;
@@ -74,14 +73,11 @@ header nav[aria-expanded='true'] {
   header nav .nav-tools {
     grid-area: tools;
     justify-self: end;
+    gap: 20px;
   }
 
   header nav .nav-sections {
     grid-area: sections;
-  }
-
-  header nav .nav-tools {
-    gap: 20px;
   }
 
   header nav .nav-tool-label {

@@ -3,6 +3,7 @@ footer {
     font: var(--type-body-2-default-font);
     letter-spacing: var(--type-body-2-default-letter-spacing);
     color: var(--color-neutral-50);
+
     a:not(.dropin-design a),
     a:not(.dropin-design a):hover{
         color: var(--color-neutral-50);
@@ -64,7 +65,7 @@ footer .footer-list img {
     list-style-position: inside;
 }
 
-.storeview-selection > li {
+footer .storeview-selection > li {
     margin-bottom: var(--spacing-small);
 }
 

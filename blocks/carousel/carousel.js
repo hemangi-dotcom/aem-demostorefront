@@ -110,7 +110,7 @@ function createCta(column) {
   if (tag) {
     label = tag[3].replace(/<[^>]+>/g, '').trim() || label;
     const hrefMatch = tag[2].match(/href=["']([^"']+)["']/i);
-    if (hrefMatch) href = hrefMatch[1];
+    if (hrefMatch) [, href] = hrefMatch;
   }
 
   if (pre) pre.remove();

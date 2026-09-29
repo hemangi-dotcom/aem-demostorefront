@@ -87,7 +87,7 @@ main > .section .carousel-wrapper {
     margin: 24px 16px;
     padding: 32px 28px 24px;
     color: #fff;
-    background-color: rgba(200, 50, 147, 0.8);
+    background-color: rgb(200 50 147 / 80%);
     position: relative;
 }
 
@@ -141,6 +141,20 @@ main > .section .carousel-wrapper {
     background-color: #f3f3f3;
 }
 
+.carousel .carousel-slide-indicator button {
+    text-indent: -9999px;
+    width: 8px;
+    height: 8px;
+    outline: 0;
+    border: 0 none;
+    border-radius: 50%;
+    text-decoration: none;
+    background-color: rgb(255 255 255 / 55%);
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+}
+
 .carousel .banner-cta:focus-visible,
 .carousel .carousel-slide-indicator button:focus-visible {
     outline: 2px solid #fff;
@@ -166,20 +180,6 @@ main > .section .carousel-wrapper {
     display: inline-block;
     margin: 0 var(--spacing-xsmall) 0 var(--spacing-xxsmall);
     border-radius: var(--shape-border-radius-2);
-}
-
-.carousel .carousel-slide-indicator button {
-    text-indent: -9999px;
-    width: 8px;
-    height: 8px;
-    outline: 0;
-    border: 0 none;
-    border-radius: 50%;
-    text-decoration: none;
-    background-color: rgb(255 255 255 / 55%);
-    margin: 0;
-    padding: 0;
-    cursor: pointer;
 }
 
 .carousel .carousel-slide-indicator button:disabled,
