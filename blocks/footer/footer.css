@@ -1,7 +1,12 @@
 footer {
-    background-color: var(--color-neutral-100);
+    background-color: var(--color-deep-black);
     font: var(--type-body-2-default-font);
     letter-spacing: var(--type-body-2-default-letter-spacing);
+    color: var(--color-neutral-50);
+    a:not(.dropin-design a),
+    a:not(.dropin-design a):hover{
+        color: var(--color-neutral-50);
+    }
 }
 
 footer .footer > div {
@@ -12,6 +17,27 @@ footer .footer > div {
 
 footer .footer p {
     margin: 0;
+}
+
+footer .footer-list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 16px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+footer .footer-list li {
+    flex: 0 1 auto;
+}
+
+footer .footer-list img {
+    display: block;
+    width: auto;
+    max-width: 100%;
+    height: auto;
 }
 
 .storeview-switcher-button {

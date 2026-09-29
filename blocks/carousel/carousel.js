@@ -8,13 +8,11 @@ function updateActiveSlide(slide) {
   const slides = block.querySelectorAll('.carousel-slide');
 
   slides.forEach((aSlide, idx) => {
-    aSlide.setAttribute('aria-hidden', idx !== slideIndex);
-    aSlide.querySelectorAll('a').forEach((link) => {
-      if (idx !== slideIndex) {
-        link.setAttribute('tabindex', '-1');
-      } else {
-        link.removeAttribute('tabindex');
-      }
+    const active = idx === slideIndex;
+    aSlide.setAttribute('aria-hidden', active ? 'false' : 'true');
+    aSlide.querySelectorAll('a, button').forEach((control) => {
+      if (active) control.removeAttribute('tabindex');
+      else control.setAttribute('tabindex', '-1');
     });
   });
 
@@ -45,10 +43,10 @@ export function showSlide(block, slideIndex = 0) {
 }
 
 function bindEvents(block) {
-  const slideIndicators = block.querySelector('.carousel-slide-indicators');
-  if (!slideIndicators) return;
+  const buttons = block.querySelectorAll('.carousel-slide-indicator button');
+  if (!buttons.length) return;
 
-  slideIndicators.querySelectorAll('button').forEach((button) => {
+  buttons.forEach((button) => {
     button.addEventListener('click', (e) => {
       const slideIndicator = e.currentTarget.parentElement;
       showSlide(block, parseInt(slideIndicator.dataset.targetSlide, 10));
@@ -70,14 +68,61 @@ function bindEvents(block) {
 
 function startAutoplay(block, interval = 6000) {
   const slides = block.querySelectorAll('.carousel-slide');
-
   if (slides.length < 2) return;
-  let currentIndex = parseInt(block.dataset.activeSlide || '0', 10);
-  setInterval(() => {
-    const nextIndex = (currentIndex + 1) % slides.length;
-    showSlide(block, nextIndex);
-    currentIndex = nextIndex;
-  }, interval);
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  let timer = 0;
+  const play = () => {
+    window.clearInterval(timer);
+    timer = window.setInterval(() => {
+      const currentIndex = parseInt(block.dataset.activeSlide || '0', 10);
+      showSlide(block, currentIndex + 1);
+    }, interval);
+  };
+  const pause = () => window.clearInterval(timer);
+
+  play();
+  block.addEventListener('mouseenter', pause);
+  block.addEventListener('mouseleave', play);
+  block.addEventListener('focusin', pause);
+  block.addEventListener('focusout', (event) => {
+    if (!block.contains(event.relatedTarget)) play();
+  });
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) pause();
+    else play();
+  });
+}
+
+/**
+ * Turns a <button> or <a> written as text into a real control.
+ * @param {HTMLElement} column
+ * @returns {HTMLElement|null}
+ */
+function createCta(column) {
+  const pre = column.querySelector('pre');
+  const raw = pre?.textContent?.trim() || '';
+  const authoredLink = column.querySelector('a[href]');
+  const tag = raw.match(/<(button|a)\b([^>]*)>([\s\S]*?)<\/\1>/i);
+  let label = authoredLink?.textContent.trim() || '';
+  let href = authoredLink?.getAttribute('href') || '';
+
+  if (tag) {
+    label = tag[3].replace(/<[^>]+>/g, '').trim() || label;
+    const hrefMatch = tag[2].match(/href=["']([^"']+)["']/i);
+    if (hrefMatch) href = hrefMatch[1];
+  }
+
+  if (pre) pre.remove();
+  if (authoredLink) authoredLink.remove();
+  if (!label) return null;
+
+  const cta = href ? document.createElement('a') : document.createElement('button');
+  cta.className = 'banner-cta';
+  cta.textContent = label;
+  if (href) cta.href = href;
+  else cta.type = 'button';
+  return cta;
 }
 
 function createSlide(row, slideIndex, carouselId) {
@@ -93,19 +138,16 @@ function createSlide(row, slideIndex, carouselId) {
     slide.append(column);
   });
 
+  const content = slide.querySelector('.carousel-slide-content');
+  const cta = content && createCta(content);
+  if (cta) content.append(cta);
+
   const labeledBy = slide.querySelector('h1, h2, h3, h4, h5, h6');
   if (labeledBy) {
     slide.setAttribute('aria-labelledby', labeledBy.getAttribute('id'));
   }
 
   return slide;
-}
-
-function shuffleArray(array) {
-  for (let i = array.length - 1; i > 0; i -= 1) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
 }
 
 let carouselId = 0;
@@ -130,41 +172,51 @@ export default async function decorate(block) {
   slidesWrapper.classList.add('carousel-slides');
   block.prepend(slidesWrapper);
 
-  let slideIndicators;
-  if (!isSingleSlide) {
-    const slideIndicatorsNav = document.createElement('nav');
-    slideIndicatorsNav.setAttribute(
-      'aria-label',
-      placeholders.carouselSlideControls || 'Carousel Slide Controls',
-    );
-    slideIndicators = document.createElement('ol');
-    slideIndicators.classList.add('carousel-slide-indicators');
-    slideIndicatorsNav.append(slideIndicators);
-    block.append(slideIndicatorsNav);
-  }
-
-  shuffleArray(rows);
-
   rows.forEach((row, idx) => {
     const slide = createSlide(row, idx, carouselId);
-    slidesWrapper.append(slide);
-
-    if (slideIndicators) {
-      const indicator = document.createElement('li');
-      indicator.classList.add('carousel-slide-indicator');
-      indicator.dataset.targetSlide = idx;
-      indicator.innerHTML = `<button type="button" aria-label="${
-        placeholders.showSlide || 'Show Slide'
-      } ${idx + 1} ${placeholders.of || 'of'} ${rows.length}"></button>`;
-      slideIndicators.append(indicator);
+    const content = slide.querySelector('.carousel-slide-content');
+    if (content) {
+      const dots = document.createElement('ol');
+      dots.classList.add('carousel-slide-indicators');
+      dots.setAttribute('aria-label', placeholders.carouselSlideControls || 'Carousel Slide Controls');
+      rows.forEach((_, dotIndex) => {
+        const indicator = document.createElement('li');
+        indicator.classList.add('carousel-slide-indicator');
+        indicator.dataset.targetSlide = dotIndex;
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.setAttribute('aria-label', `${placeholders.showSlide || 'Show Slide'} ${dotIndex + 1} ${placeholders.of || 'of'} ${rows.length}`);
+        indicator.append(button);
+        dots.append(indicator);
+      });
+      content.append(dots);
     }
+    slidesWrapper.append(slide);
     row.remove();
   });
 
+  const firstImage = slidesWrapper.querySelector('.carousel-slide-image img');
+  if (firstImage) {
+    firstImage.loading = 'eager';
+    firstImage.setAttribute('fetchpriority', 'high');
+  }
+
   container.append(slidesWrapper);
   block.prepend(container);
-  if (!isSingleSlide) {
-    bindEvents(block);
-    startAutoplay(block);
-  }
+  const firstSlide = slidesWrapper.querySelector('.carousel-slide');
+  if (firstSlide) updateActiveSlide(firstSlide);
+  bindEvents(block);
+  if (!isSingleSlide) startAutoplay(block);
+
+  block.addEventListener('keydown', (event) => {
+    const currentIndex = parseInt(block.dataset.activeSlide || '0', 10);
+    if (event.key === 'ArrowRight') {
+      event.preventDefault();
+      showSlide(block, currentIndex + 1);
+    }
+    if (event.key === 'ArrowLeft') {
+      event.preventDefault();
+      showSlide(block, currentIndex - 1);
+    }
+  });
 }

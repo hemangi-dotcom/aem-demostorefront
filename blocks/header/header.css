@@ -38,20 +38,107 @@ header nav[aria-expanded='true'] {
 }
 
 @media (min-width: 900px) {
+  header {
+    height: auto;
+  }
+
   header .nav-wrapper {
     position: relative;
   }
 
   header nav {
-    display: flex;
-    justify-content: space-between;
-    gap: 0 32px;
+    display: grid;
+    grid-template-columns: auto minmax(220px, 1fr) auto;
+    grid-template-areas:
+      'brand search tools'
+      'sections sections sections';
+    align-items: center;
+    column-gap: 32px;
+    row-gap: 12px;
     max-width: 1264px;
-    padding: 0 32px;
+    height: auto;
+    padding: 16px 32px 0;
+  }
+
+  header nav .nav-brand {
+    grid-area: brand;
+  }
+
+  header nav .search-wrapper {
+    grid-area: search;
+    justify-self: center;
+    width: 100%;
+    max-width: 640px;
+  }
+
+  header nav .nav-tools {
+    grid-area: tools;
+    justify-self: end;
+  }
+
+  header nav .nav-sections {
+    grid-area: sections;
+  }
+
+  header nav .nav-tools {
+    gap: 20px;
+  }
+
+  header nav .nav-tool-label {
+    position: static;
+    width: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    clip-path: none;
+  }
+
+  header nav .nav-tools button.nav-cart-button,
+  header nav .nav-tools button.nav-wishlist-button {
+    width: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 4px 8px 28px;
+    background-position: left center;
+    background-size: 20px;
+    font: var(--type-body-1-default-font);
+    letter-spacing: var(--type-body-1-default-letter-spacing);
+    color: var(--color-neutral-800);
+  }
+
+  header nav .nav-tools button.nav-cart-button[data-count]::after {
+    right: auto;
+    left: 10px;
+  }
+
+  header nav .nav-tools .nav-tools-panel {
+    top: calc(100% + 8px);
+  }
+
+  header nav .nav-dropdown-button {
+    gap: 8px;
+    color: var(--color-neutral-800);
+  }
+
+  header nav .nav-dropdown-button::after {
+    content: '';
+    width: 6px;
+    height: 6px;
+    margin-left: 2px;
+    border-right: 1.5px solid currentcolor;
+    border-bottom: 1.5px solid currentcolor;
+    transform: rotate(45deg) translateY(-2px);
+    flex: 0 0 auto;
   }
 
   header nav[aria-expanded='true'] {
+    grid-template-columns: auto minmax(220px, 1fr) auto;
+    grid-template-areas:
+      'brand search tools'
+      'sections sections sections';
     min-height: 0;
+    height: auto;
     overflow: visible;
   }
 }
@@ -216,6 +303,8 @@ header nav .nav-sections ul>li:empty {
     display: block;
     visibility: visible;
     white-space: nowrap;
+    border-top: 1px solid var(--color-neutral-300);
+    padding: 4px 0 12px;
   }
 
   header nav[aria-expanded='true'] .nav-sections {
@@ -236,10 +325,16 @@ header nav .nav-sections ul>li:empty {
     text-decoration: none;
   }
 
-  header nav .nav-sections ul {
+  header nav .nav-sections .default-content-wrapper > ul {
     display: flex;
-    gap: 24px;
+    justify-content: flex-start;
+    gap: 32px;
     margin: 0;
+  }
+
+  header nav .nav-sections .default-content-wrapper > ul > li,
+  header nav .nav-sections .default-content-wrapper > ul > li > a {
+    text-transform: uppercase;
   }
 
   header nav .nav-sections .default-content-wrapper>ul>li ul {
@@ -388,11 +483,26 @@ header nav .nav-tools button.nav-wishlist-button {
   position: relative;
 }
 
-header nav .nav-tools button.nav-search-button {
+header nav .nav-tools button.nav-search-button,
+header nav .search-wrapper .nav-search-button {
   font-size: 0;
   background-image: url('../../icons/search.svg');
   background-repeat: no-repeat;
   background-position: center;
+}
+
+@media (max-width: 899px) {
+  header nav .nav-tool-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
 }
 
 header .nav-search-panel {
@@ -888,5 +998,150 @@ body:has(.seller-assisted-buying-banner) {
   .seller-assisted-buying-banner__close-button span {
     line-height: 1.1;
     display: inline-block;
+  }
+}
+
+@media (min-width: 900px) {
+  header nav .search-wrapper {
+    position: relative;
+  }
+
+  header nav .search-wrapper .nav-search-button {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    z-index: 6;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+  }
+
+  header nav .search-wrapper .nav-search-panel.nav-tools-panel,
+  header nav .search-wrapper .nav-search-panel.nav-tools-panel.nav-tools-panel--show {
+    display: block;
+    position: relative;
+    top: auto;
+    right: auto;
+    z-index: 1;
+    width: 100%;
+    max-height: none;
+    padding: 0;
+    overflow: visible;
+    box-shadow: none;
+    background: transparent;
+  }
+
+  header nav .search-wrapper .nav-search-panel input {
+    height: 40px;
+    border: 1px solid var(--color-neutral-400);
+    border-radius: 4px;
+    padding-right: 44px;
+  }
+
+  header nav .search-wrapper .search-bar-result {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    z-index: 5;
+    background: var(--background-color);
+    box-shadow: var(--shape-shadow-2);
+  }
+
+  header nav .nav-tools button.nav-cart-button,
+  header nav .nav-tools button.nav-wishlist-button {
+    background-position: left 4px center;
+  }
+}
+
+header nav .nav-tools button.nav-language-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: auto;
+  height: 40px;
+  padding: 8px 2px;
+  color: var(--color-neutral-800);
+  font: var(--type-body-1-default-font);
+  letter-spacing: var(--type-body-1-default-letter-spacing);
+}
+
+header nav .nav-language-button::after {
+  content: '';
+  width: 6px;
+  height: 6px;
+  margin-left: 2px;
+  border-right: 1.5px solid currentcolor;
+  border-bottom: 1.5px solid currentcolor;
+  transform: rotate(45deg) translateY(-2px);
+  flex: 0 0 auto;
+}
+
+header nav .nav-language-button[aria-expanded='true']::after {
+  transform: rotate(-135deg) translateY(-1px);
+}
+
+header nav .nav-lang-flag {
+  display: block;
+  width: 22px;
+  height: 16px;
+  flex: 0 0 auto;
+  overflow: hidden;
+  border: 1px solid #e6e6e6;
+  box-sizing: border-box;
+  line-height: 0;
+}
+
+header nav .nav-lang-flag svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+header nav .language-wrapper .nav-lang-panel {
+  width: max-content;
+  min-width: 148px;
+  padding: 6px 0;
+}
+
+header nav .nav-lang-menu {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+header nav .nav-lang-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  margin: 0;
+  padding: 10px 16px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--color-neutral-800);
+  font: var(--type-body-1-default-font);
+  letter-spacing: var(--type-body-1-default-letter-spacing);
+  text-align: left;
+  cursor: pointer;
+}
+
+header nav .nav-lang-option:hover,
+header nav .nav-lang-option[aria-checked='true'] {
+  background-color: var(--color-neutral-200);
+}
+
+@media (max-width: 899px) {
+  header nav:not([aria-expanded='true']) .language-wrapper {
+    display: none;
+  }
+
+  header nav[aria-expanded='true'] .language-wrapper .nav-lang-panel.nav-tools-panel--show {
+    position: absolute;
+    top: auto;
+    right: 0;
+    bottom: calc(100% + 8px);
+    width: max-content;
   }
 }

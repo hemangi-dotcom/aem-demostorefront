@@ -24,6 +24,27 @@ function toggleStoreDropdown(sections, expanded = false) {
 }
 
 /**
+ * Replaces table with li.
+ * @param {HTMLTableElement} table
+ */
+function replaceTableWithList(table) {
+  const list = document.createElement('ul');
+  list.className = 'footer-list';
+
+  [...table.rows].forEach((row) => {
+    [...row.cells]
+      .filter((cell) => cell.textContent.trim() || cell.querySelector('img, picture, a, svg'))
+      .forEach((cell) => {
+        const item = document.createElement('li');
+        while (cell.firstChild) item.append(cell.firstChild);
+        list.append(item);
+      });
+  });
+
+  if (list.childElementCount) table.replaceWith(list);
+}
+
+/**
  * loads and decorates the footer
  * @param {Element} block The footer block element
  */
@@ -167,6 +188,7 @@ export default async function decorate(block) {
     }
   }
   while (fragment.firstElementChild) footer.append(fragment.firstElementChild);
+  footer.querySelectorAll('table').forEach(replaceTableWithList);
 
   block.append(footer);
 }

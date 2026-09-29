@@ -8,6 +8,7 @@ import { fetchPlaceholders, getProductLink, rootLink } from '../../scripts/comme
 
 import renderAuthCombine from './renderAuthCombine.js';
 import { renderAuthDropdown } from './renderAuthDropdown.js';
+import renderLanguageSwitcher from './renderLanguageSwitcher.js';
 import renderSellerAssistedBuyingBanner from './renderSellerAssistedBuyingBanner.js';
 
 // media query match that indicates mobile/tablet width
@@ -225,14 +226,13 @@ export default async function decorate(block) {
   /** Wishlist */
   const wishlist = document.createRange().createContextualFragment(`
      <div class="wishlist-wrapper nav-tools-wrapper">
-       <button type="button" class="nav-wishlist-button" aria-label="Wishlist"></button>
+       <button type="button" class="nav-wishlist-button" aria-label="Wishlist"><span class="nav-tool-label">Wishlist</span></button>
        <div class="wishlist-panel nav-tools-panel"></div>
      </div>
    `);
 
-  navTools.append(wishlist);
-
-  const wishlistButton = navTools.querySelector('.nav-wishlist-button');
+  const wishlistButton = navTools.querySelector('.nav-wishlist-button')
+    || wishlist.querySelector('.nav-wishlist-button');
 
   const wishlistMeta = getMetadata('wishlist');
   const wishlistPath = wishlistMeta ? new URL(wishlistMeta, window.location).pathname : '/wishlist';
@@ -246,13 +246,14 @@ export default async function decorate(block) {
 
   const minicart = document.createRange().createContextualFragment(`
      <div class="minicart-wrapper nav-tools-wrapper">
-       <button type="button" class="nav-cart-button" aria-label="Cart" aria-haspopup="dialog" aria-expanded="false" aria-controls="minicart-panel"></button>
+       <button type="button" class="nav-cart-button" aria-label="Cart" aria-haspopup="dialog" aria-expanded="false" aria-controls="minicart-panel"><span class="nav-tool-label">Cart</span></button>
        <div class="minicart-panel nav-tools-panel" id="minicart-panel"></div>
        <div class="nav-cart-status" role="status" aria-live="polite"></div>
      </div>
    `);
 
   navTools.append(minicart);
+  navTools.append(wishlist);
 
   const minicartPanel = navTools.querySelector('.minicart-panel');
 
@@ -380,14 +381,15 @@ export default async function decorate(block) {
   </div>
   `);
 
-  navTools.append(searchFragment);
+  const searchWrapper = searchFragment.querySelector('.search-wrapper');
+  navTools.append(searchWrapper);
 
-  const searchPanel = navTools.querySelector('.nav-search-panel');
-  const searchButton = navTools.querySelector('.nav-search-button');
+  const searchPanel = searchWrapper.querySelector('.nav-search-panel');
+  const searchButton = searchWrapper.querySelector('.nav-search-button');
   const searchForm = searchPanel.querySelector('#search-bar-form');
   const searchResult = searchPanel.querySelector('.search-bar-result');
 
-  async function toggleSearch(state) {
+  async function toggleSearch(state, focus = true) {
     const pageSize = 4;
 
     if (state) {
@@ -487,16 +489,18 @@ export default async function decorate(block) {
     }
 
     togglePanel(searchPanel, state);
-    if (state) searchForm?.querySelector('input')?.focus();
+    if (state && focus) searchForm?.querySelector('input')?.focus();
   }
 
-  searchButton.addEventListener('click', () => toggleSearch(!searchPanel.classList.contains('nav-tools-panel--show')));
-
-  navTools.querySelector('.nav-search-button').addEventListener('click', () => {
+  searchButton.addEventListener('click', (event) => {
     if (isDesktop.matches) {
+      event.preventDefault();
+      searchForm.requestSubmit();
       toggleAllNavSections(navSections);
       overlay.classList.remove('show');
+      return;
     }
+    toggleSearch(!searchPanel.classList.contains('nav-tools-panel--show'));
   });
 
   // Close panels when clicking outside
@@ -520,7 +524,7 @@ export default async function decorate(block) {
       toggleMiniCart(false);
     }
 
-    if (!searchPanel.contains(e.target) && !searchButton.contains(e.target)) {
+    if (!isDesktop.matches && !searchPanel.contains(e.target) && !searchButton.contains(e.target)) {
       toggleSearch(false);
     }
   });
@@ -560,9 +564,31 @@ export default async function decorate(block) {
   toggleMenu(nav, navSections, isDesktop.matches);
   isDesktop.addEventListener('change', () => toggleMenu(nav, navSections, isDesktop.matches));
 
+  function placeSearch() {
+    if (isDesktop.matches) {
+      navTools.before(searchWrapper);
+      return;
+    }
+    const auth = navTools.querySelector('.dropdown-wrapper');
+    if (auth) navTools.insertBefore(searchWrapper, auth);
+    else navTools.append(searchWrapper);
+  }
+
+  renderAuthDropdown(navTools);
+  renderLanguageSwitcher(navTools);
+  placeSearch();
+  isDesktop.addEventListener('change', () => {
+    placeSearch();
+    if (isDesktop.matches) toggleSearch(true, false);
+    else toggleSearch(false);
+  });
+
+  if (isDesktop.matches) {
+    toggleSearch(true, false);
+  }
+
   renderAuthCombine(
     navSections,
     () => !isDesktop.matches && toggleMenu(nav, navSections, false),
   );
-  renderAuthDropdown(navTools);
 }

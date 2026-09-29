@@ -24,7 +24,7 @@ main > .section .carousel-wrapper {
     scroll-behavior: smooth;
     scroll-snap-type: x mandatory;
     overflow: scroll clip;
-    height: 40vw;
+    height: 420px;
 }
 
 .carousel .carousel-slides::-webkit-scrollbar {
@@ -51,6 +51,11 @@ main > .section .carousel-wrapper {
     align-items: flex-end;
 }
 
+.carousel .carousel-slide .carousel-slide-image {
+    position: absolute;
+    inset: 0;
+}
+
 .carousel .carousel-slide .carousel-slide-image picture {
     position: absolute;
     inset: 0;
@@ -62,34 +67,99 @@ main > .section .carousel-wrapper {
     object-fit: cover;
 }
 
+.carousel .carousel-slide-image::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(90deg, rgb(35 31 32 / 48%) 0%, rgb(35 31 32 / 12%) 46%, rgb(35 31 32 / 34%) 100%);
+}
+
 .carousel .carousel-slide .carousel-slide-content {
     z-index: 1;
-    margin: 68px;
-    padding: var(--spacing-small);
-    color: white;
-    background-color: rgb(19 19 19 / 75%);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    width: min(520px, calc(100% - 32px));
+    min-height: 300px;
+    margin: 24px 16px;
+    padding: 32px 28px 24px;
+    color: #fff;
+    background-color: rgba(200, 50, 147, 0.8);
     position: relative;
-    width: var(--slide-content-width, auto);
 }
 
 .carousel nav {
     position: relative;
 }
 
-.carousel .carousel-slide-indicators {
-    position: absolute;
-    bottom: var(--spacing-small);
-    text-align: center;
-    font-size: .25em;
-    font-weight: bold;
-    color: transparent;
-    z-index: 2;
-    width: 100%;
-    justify-content: center;
-    flex-wrap: wrap;
-    display: flex;
+.carousel .carousel-slide-content h1,
+.carousel .carousel-slide-content h2,
+.carousel .carousel-slide-content h3,
+.carousel .carousel-slide-content h4 {
+    margin: 0;
+    color: #fff;
+    font-size: clamp(2.4rem, 4vw, 3.6rem);
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    line-height: 1.1;
+    text-transform: uppercase;
+    white-space: pre-line;
+}
+
+.carousel .carousel-slide-content p {
+    margin: 0;
     padding: 0;
-    line-height: 0;
+    max-width: 36ch;
+    color: #fff;
+    font-size: 1.6rem;
+    line-height: 1.45;
+    text-align: left;
+}
+
+.carousel .banner-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 4px;
+    padding: 14px 28px;
+    border: 0;
+    background-color: #fff;
+    color: #e10680;
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    line-height: 1;
+    text-decoration: none;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.carousel .banner-cta:hover {
+    background-color: #f3f3f3;
+}
+
+.carousel .banner-cta:focus-visible,
+.carousel .carousel-slide-indicator button:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 3px;
+}
+
+.carousel .banner-cta:focus-visible {
+    outline-color: #1a1a1a;
+}
+
+.carousel .carousel-slide-content .carousel-slide-indicators {
+    position: static;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: auto;
+    margin: auto 0 0;
+    padding: 24px 0 0;
+    text-align: left;
 }
 
 .carousel .carousel-slide-indicator {
@@ -106,16 +176,21 @@ main > .section .carousel-wrapper {
     border: 0 none;
     border-radius: 50%;
     text-decoration: none;
-    background-color: var(--color-neutral-400);
+    background-color: rgb(255 255 255 / 55%);
     margin: 0;
     padding: 0;
-    transition: background-color 0.2s;
+    cursor: pointer;
 }
 
 .carousel .carousel-slide-indicator button:disabled,
 .carousel .carousel-slide-indicator button:hover,
 .carousel .carousel-slide-indicator button:focus-visible {
-    background-color: var(--color-neutral-700);
+    background-color: #fff;
+}
+
+.carousel .carousel-slide-indicator button:disabled {
+    width: 22px;
+    border-radius: 999px;
 }
 
 .carousel .carousel-navigation-buttons {
@@ -160,10 +235,19 @@ main > .section .carousel-wrapper {
         right: 24px;
     }
 
-    .carousel .carousel-slide .carousel-slide-content {
-        --slide-content-width: calc((100% - 184px) / 2);
+    .carousel .carousel-slides {
+        height: 560px;
+    }
 
-        margin: 92px;
+    .carousel .carousel-slide {
+        min-height: 560px;
+    }
+
+    .carousel .carousel-slide .carousel-slide-content {
+        width: min(560px, calc(100% - 128px));
+        min-height: 380px;
+        margin: 0 0 0 64px;
+        padding: 48px 40px 32px;
     }
 
     .carousel .carousel-slide .carousel-slide-content[data-align='justify'] {
