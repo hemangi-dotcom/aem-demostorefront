@@ -106,9 +106,9 @@ export function renderAuthDropdown(navTools) {
       authDropinContainer.style.display = 'block';
       loginButton.innerHTML = `
       <svg
-          width="25"
-          height="25"
-          viewBox="0 0 24 24"
+          width="11"
+          height="17"
+          viewBox="5 1 14 22"
           aria-hidden="true"
           >
           <g fill="none" stroke="#000000" stroke-width="1.5">

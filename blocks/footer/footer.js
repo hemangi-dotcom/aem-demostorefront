@@ -7,7 +7,7 @@ import {
 
 // Block-level
 import createModal from '../modal/modal.js';
-import { getMetadata } from '../../scripts/aem.js';
+import { decorateIcons, getMetadata } from '../../scripts/aem.js';
 import { loadFragment } from '../fragment/fragment.js';
 
 /**
@@ -29,7 +29,7 @@ function toggleStoreDropdown(sections, expanded = false) {
  */
 function replaceTableWithList(table) {
   const list = document.createElement('ul');
-  list.className = 'footer-list';
+  list.className = table.querySelector('a') ? 'footer-social' : 'footer-list';
 
   [...table.rows].forEach((row) => {
     [...row.cells]
@@ -42,6 +42,32 @@ function replaceTableWithList(table) {
   });
 
   if (list.childElementCount) table.replaceWith(list);
+}
+
+/**
+ * Turns a button or link written as text into a real control.
+ * @param {HTMLElement} footer
+ */
+function decorateAuthoredControls(footer) {
+  footer.querySelectorAll('pre').forEach((pre) => {
+    const raw = pre.textContent.trim();
+    const tag = raw.match(/<(button|a)\b([^>]*)>([\s\S]*?)<\/\1>/i);
+    if (!tag) return;
+
+    const label = tag[3].replace(/<[^>]+>/g, '').trim();
+    if (!label) return;
+
+    const hrefMatch = tag[2].match(/href=["']([^"']+)["']/i);
+    let href = '';
+    if (hrefMatch) [, href] = hrefMatch;
+
+    const control = href ? document.createElement('a') : document.createElement('button');
+    control.className = 'footer-subscribe';
+    control.textContent = label;
+    if (href) control.href = href;
+    else control.type = 'button';
+    pre.replaceWith(control);
+  });
 }
 
 /**
@@ -189,6 +215,21 @@ export default async function decorate(block) {
   }
   while (fragment.firstElementChild) footer.append(fragment.firstElementChild);
   footer.querySelectorAll('table').forEach(replaceTableWithList);
+  decorateAuthoredControls(footer);
+  footer.querySelectorAll('p').forEach((paragraph) => {
+    const text = paragraph.textContent.trim();
+    if (!text || paragraph.querySelector('img, picture, a')) return;
+    let iconName = '';
+    if (text.includes('@')) iconName = 'email';
+    else if (text.startsWith('(')) iconName = 'phone';
+    if (!iconName) return;
+    paragraph.classList.add(`footer-${iconName}`);
+    const icon = document.createElement('span');
+    icon.className = `icon icon-${iconName}`;
+    icon.setAttribute('aria-hidden', 'true');
+    paragraph.prepend(icon);
+  });
+  decorateIcons(footer);
 
   block.append(footer);
 }

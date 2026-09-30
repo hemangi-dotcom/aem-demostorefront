@@ -77,7 +77,7 @@ function focusNavSection() {
 function toggleAllNavSections(sections, expanded = false) {
   if (!sections) return;
   sections
-    .querySelectorAll('.nav-sections .default-content-wrapper > ul > li')
+    .querySelectorAll(':scope .default-content-wrapper > ul > li')
     .forEach((section) => {
       section.setAttribute('aria-expanded', expanded);
     });
@@ -210,12 +210,8 @@ export default async function decorate(block) {
         navSection.addEventListener('mouseenter', () => {
           toggleAllNavSections(navSections);
           if (isDesktop.matches) {
-            if (!navSection.classList.contains('nav-drop')) {
-              overlay.classList.remove('show');
-              return;
-            }
+            if (!navSection.classList.contains('nav-drop')) return;
             navSection.setAttribute('aria-expanded', 'true');
-            overlay.classList.add('show');
           }
         });
       });

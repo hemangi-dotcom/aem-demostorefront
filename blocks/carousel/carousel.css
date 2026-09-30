@@ -85,10 +85,10 @@ main > .section .carousel-wrapper {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 16px;
-    width: min(520px, calc(100% - 32px));
+    gap: var(--spacing-small);
+    width: min(520px, calc(100% - var(--spacing-big)));
     min-height: 300px;
-    padding: 32px 28px 24px;
+    padding: var(--spacing-big) 28px var(--spacing-medium);
     color: var(--color-neutral-50);
     background-color: rgb(200 50 147 / 80%);
     position: relative;
@@ -103,7 +103,7 @@ main > .section .carousel-wrapper {
 .carousel .carousel-slide-content h3,
 .carousel .carousel-slide-content h4 {
     margin: 0;
-    color: #fff;
+    color: var(--color-neutral-50);
     font-size: clamp(2.4rem, 4vw, 3.6rem);
     font-weight: 700;
     letter-spacing: 0.01em;
@@ -116,7 +116,7 @@ main > .section .carousel-wrapper {
     margin: 0;
     padding: 0;
     max-width: 36ch;
-    color: #fff;
+    color: var(--color-neutral-50);
     font-size: 1.6rem;
     line-height: 1.45;
     text-align: left;
@@ -126,14 +126,14 @@ main > .section .carousel-wrapper {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    margin-top: 4px;
+    margin-top: var(--spacing-xxsmall);
     padding: 14px 28px;
     border: 0;
-    background-color: #fff;
+    background-color: var(--color-neutral-50);
     color: #e10680;
     font-size: 1.4rem;
     font-weight: 700;
-    letter-spacing: 0.08em;
+    letter-spacing: var(--type-button-2-letter-spacing);
     line-height: 1;
     text-decoration: none;
     text-transform: uppercase;
@@ -146,8 +146,8 @@ main > .section .carousel-wrapper {
 
 .carousel .carousel-slide-indicator button {
     text-indent: -9999px;
-    width: 8px;
-    height: 8px;
+    width: var(--spacing-xsmall);
+    height: var(--spacing-xsmall);
     outline: 0;
     border: 0 none;
     border-radius: 50%;
@@ -160,7 +160,7 @@ main > .section .carousel-wrapper {
 
 .carousel .banner-cta:focus-visible,
 .carousel .carousel-slide-indicator button:focus-visible {
-    outline: 2px solid #fff;
+    outline: var(--shape-border-width-3) solid var(--color-neutral-50);
     outline-offset: 3px;
 }
 
@@ -172,10 +172,10 @@ main > .section .carousel-wrapper {
     position: static;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: var(--spacing-xsmall);
     width: auto;
     margin: auto 0 0;
-    padding: 24px 0 0;
+    padding: var(--spacing-medium) 0 0;
     text-align: left;
 }
 
@@ -188,7 +188,7 @@ main > .section .carousel-wrapper {
 .carousel .carousel-slide-indicator button:disabled,
 .carousel .carousel-slide-indicator button:hover,
 .carousel .carousel-slide-indicator button:focus-visible {
-    background-color: #fff;
+    background-color: var(--color-neutral-50);
 }
 
 .carousel .carousel-slide-indicator button:disabled {
@@ -223,19 +223,19 @@ main > .section .carousel-wrapper {
     width: 12px;
     position: absolute;
     top: 50%;
-    left: calc(50% + 2px);
+    left: calc(50% + var(--shape-border-width-3));
     transform: translate(-50%, -50%) rotate(-135deg);
 }
 
 .carousel .carousel-navigation-buttons button.slide-next::after {
     transform: translate(-50%, -50%) rotate(45deg);
-    left: calc(50% - 2px);
+    left: calc(50% - var(--shape-border-width-3));
 }
 
 @media (min-width: 600px) {
     .carousel .carousel-navigation-buttons {
-        left: 24px;
-        right: 24px;
+        left: var(--spacing-medium);
+        right: var(--spacing-medium);
     }
 
     .carousel .carousel-slides {
@@ -249,7 +249,7 @@ main > .section .carousel-wrapper {
     .carousel .carousel-slide .carousel-slide-content {
         width: min(560px, calc(100% - 128px));
         min-height: 380px;
-        padding: 48px 40px 32px;
+        padding: var(--spacing-xxbig) var(--spacing-xbig) var(--spacing-big);
     }
 
     .carousel .carousel-slide .carousel-slide-content[data-align='justify'] {
